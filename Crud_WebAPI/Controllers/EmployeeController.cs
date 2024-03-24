@@ -17,8 +17,32 @@ namespace Crud_WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> AddEmployee([FromBody]Employee employee)
         {
-            await _employeeRepository.AddEmployee(employee);
-            return Ok();
+            await _employeeRepository.AddEmployeeAsync(employee);
+            return Ok("Employee Added.");
+        }
+        [HttpGet]
+        public async Task<ActionResult> GetAllEmployee()
+        {
+            List<Employee> employeeList=await _employeeRepository.GetAllEmployeeAsync();
+            return Ok(employeeList);
+        } 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetEmployeeById([FromRoute]int id)
+        {
+            var employee=await _employeeRepository.GetEmployeeByIdAsync(id);
+            return Ok(employee);
+        }
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateEmployee([FromRoute]int id, [FromBody]Employee employee)
+        {
+            await _employeeRepository.UpdateEmployeeAsync(id, employee);
+            return Ok(id +" "+"Employee is updated.");
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteEmployee([FromRoute]int id)
+        {
+            await _employeeRepository.DeleteEmployeeAsync(id);
+            return Ok(id+" "+"Employee is deleted.");
         }
 
     }
